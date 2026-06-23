@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { roleLabel, useAuth } from '../context/auth'
+import { ProfileSkillTree } from './ProfileSkillTree'
 
 export function HeaderProfile({ onColor = false }: { onColor?: boolean }) {
   const navigate = useNavigate()
@@ -71,7 +72,7 @@ export function HeaderProfile({ onColor = false }: { onColor?: boolean }) {
       {open ? (
         <div
           role="menu"
-          className="absolute right-0 z-20 mt-2 w-48 rounded-lg border border-brand-border bg-brand-surface py-1 shadow-lg"
+          className="absolute right-0 z-20 mt-2 w-[min(calc(100vw-2rem),22rem)] rounded-lg border border-brand-border bg-brand-surface py-1 shadow-lg"
         >
           <div className="border-b border-brand-border px-3 py-2 sm:hidden">
             <p className="truncate text-sm font-medium text-brand-text">{displayName}</p>
@@ -80,6 +81,7 @@ export function HeaderProfile({ onColor = false }: { onColor?: boolean }) {
           <p className="hidden truncate px-3 py-2 text-xs text-brand-muted sm:block">
             {user.email}
           </p>
+          <ProfileSkillTree userId={user.id} active={open} />
           <button
             type="button"
             role="menuitem"
