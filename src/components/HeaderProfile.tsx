@@ -7,6 +7,7 @@ export function HeaderProfile({ onColor = false }: { onColor?: boolean }) {
   const navigate = useNavigate()
   const { user, appUser, loading, signOut } = useAuth()
   const [open, setOpen] = useState(false)
+  const [showSkillTree, setShowSkillTree] = useState(false)
   const rootRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -24,6 +25,7 @@ export function HeaderProfile({ onColor = false }: { onColor?: boolean }) {
 
   const displayName = user ? appUser?.display_name?.trim() || user.email?.split('@')[0] || 'User' : 'Progress'
   const label = user ? roleLabel(appUser?.role) : 'Local profile'
+  const initial = displayName.charAt(0).toUpperCase() || 'P'
 
   return (
     <div ref={rootRef} className="relative">
@@ -37,21 +39,21 @@ export function HeaderProfile({ onColor = false }: { onColor?: boolean }) {
         }
         aria-expanded={open}
         aria-haspopup="menu"
-        aria-label="Open sentence skill tree"
+        aria-label="Open profile"
       >
         <span
-          className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[10px] font-extrabold text-white ${
+          className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-extrabold text-white ${
             onColor ? 'bg-[#1cb0f6]' : 'bg-brand-primary'
           }`}
         >
-          ST
+          {initial}
         </span>
         <span className="min-w-0 flex flex-col leading-tight">
           <span className={`truncate text-xs font-extrabold ${onColor ? 'text-white' : 'text-brand-text'}`}>
-            Skill tree
+            {displayName}
           </span>
           <span className={`hidden text-[10px] sm:block ${onColor ? 'text-white/75' : 'text-brand-muted'}`}>
-            {user ? displayName : 'Local progress'}
+            {label}
           </span>
         </span>
       </button>
@@ -74,7 +76,24 @@ export function HeaderProfile({ onColor = false }: { onColor?: boolean }) {
               Progress saved on this device
             </p>
           )}
-          <ProfileSkillTree userId={user?.id ?? null} active={open} />
+          <button
+            type="button"
+            role="menuitem"
+            className="flex w-full items-center gap-2 border-b border-brand-border px-3 py-2 text-left text-sm font-semibold text-brand-primary hover:bg-brand-bg"
+            onClick={() => setShowSkillTree((value) => !value)}
+          >
+            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-accent text-[10px] font-extrabold text-white">
+              ST
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="block">Skill tree</span>
+              <span className="block text-xs font-normal text-brand-muted">
+                View sentence structure progress
+              </span>
+            </span>
+            <span className="text-brand-muted">{showSkillTree ? '-' : '+'}</span>
+          </button>
+          {showSkillTree ? <ProfileSkillTree userId={user?.id ?? null} active={open} /> : null}
           {user ? (
             <button
               type="button"
