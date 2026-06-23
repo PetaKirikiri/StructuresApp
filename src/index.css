@@ -1,0 +1,284 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: ui-sans-serif, system-ui, sans-serif;
+
+  --color-brand-primary: #1a3a2f;
+  --color-brand-accent: #2d6a4f;
+  --color-brand-bg: #f8faf9;
+  --color-brand-surface: #ffffff;
+  --color-brand-border: #d8e2de;
+  --color-brand-muted: #6b7c75;
+  --color-brand-text: #1f2d28;
+}
+
+html,
+body,
+#root {
+  @apply m-0 min-h-dvh bg-brand-bg font-sans text-brand-text antialiased;
+}
+
+@layer components {
+  .app-container {
+    width: min(100%, var(--app-container-max));
+    margin-inline: auto;
+    padding-inline: var(--app-page-x);
+  }
+
+  .app-header-inner {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--app-header-gap);
+    padding-block: var(--app-header-y);
+  }
+
+  .app-page-main {
+    padding-block: var(--app-page-y);
+  }
+
+  .structures-list {
+    display: grid;
+    grid-template-columns: var(--structures-list-columns);
+    gap: var(--structures-list-gap);
+  }
+
+  .structure-card {
+    border-radius: var(--card-radius);
+    padding: var(--card-padding);
+  }
+
+  .structure-card-grid {
+    display: grid;
+    grid-template-columns: var(--structure-card-columns);
+    gap: var(--structure-card-gap);
+    align-items: start;
+  }
+
+  .structure-variants {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .maori-parts-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: var(--maori-parts-justify);
+    gap: var(--maori-parts-gap);
+  }
+
+  .maori-chip {
+    min-height: var(--maori-chip-min-height);
+    border-radius: var(--maori-chip-radius);
+    padding: var(--maori-chip-padding);
+    font-size: var(--maori-chip-font-size);
+  }
+
+  .training-header-inner {
+    width: min(100%, var(--training-container-max));
+    margin-inline: auto;
+    display: flex;
+    align-items: center;
+    gap: var(--training-header-gap);
+  }
+
+  .training-main {
+    position: relative;
+    width: min(100%, var(--training-container-max));
+    margin-inline: auto;
+    padding: var(--training-main-padding);
+  }
+
+  .training-question {
+    gap: var(--training-question-gap);
+  }
+
+  .training-bubble {
+    max-width: var(--training-card-max);
+  }
+
+  .training-bubble-card {
+    border-radius: var(--training-bubble-radius);
+    padding: var(--training-bubble-padding);
+  }
+
+  .training-choice-list {
+    max-width: var(--training-choice-max);
+    gap: var(--training-choice-gap);
+  }
+
+  .training-choice-button {
+    min-height: var(--training-choice-min-height);
+    border-radius: var(--training-choice-radius);
+    padding: var(--training-choice-padding);
+    font-size: var(--training-choice-font-size);
+  }
+
+  .login-main {
+    width: min(100%, var(--login-container-max));
+    margin-inline: auto;
+    padding: var(--login-main-padding);
+  }
+
+  .login-card {
+    border-radius: var(--card-radius);
+    padding: var(--login-card-padding);
+  }
+}
+
+/* Mobile: phones and narrow webviews. */
+@media (max-width: 639px) {
+  :root {
+    --app-container-max: 100%;
+    --app-page-x: 1rem;
+    --app-page-y: 1.5rem;
+    --app-header-y: 0.875rem;
+    --app-header-gap: 0.75rem;
+    --structures-list-columns: 1fr;
+    --structures-list-gap: 1rem;
+    --card-radius: 0.875rem;
+    --card-padding: 1rem;
+    --structure-card-columns: 1fr;
+    --structure-card-gap: 1rem;
+    --maori-parts-justify: center;
+    --maori-parts-gap: 0.625rem;
+    --maori-chip-min-height: 2.5rem;
+    --maori-chip-radius: 0.875rem;
+    --maori-chip-padding: 0.625rem 0.875rem;
+    --maori-chip-font-size: 0.9375rem;
+    --training-container-max: 100%;
+    --training-header-gap: 0.625rem;
+    --training-main-padding: 0.5rem 1rem 2.5rem;
+    --training-question-gap: 1.25rem;
+    --training-card-max: 28rem;
+    --training-bubble-radius: 1.25rem;
+    --training-bubble-padding: 1.25rem 1rem;
+    --training-choice-max: 28rem;
+    --training-choice-gap: 0.75rem;
+    --training-choice-min-height: 4.25rem;
+    --training-choice-radius: 1rem;
+    --training-choice-padding: 0.875rem;
+    --training-choice-font-size: 0.9375rem;
+    --login-container-max: 100%;
+    --login-main-padding: 2rem 1rem;
+    --login-card-padding: 1.5rem;
+  }
+}
+
+/* iPad/tablet: comfortable single-column reading with wider touch targets. */
+@media (min-width: 640px) and (max-width: 1023px) {
+  :root {
+    --app-container-max: 46rem;
+    --app-page-x: 1.5rem;
+    --app-page-y: 2rem;
+    --app-header-y: 1rem;
+    --app-header-gap: 1rem;
+    --structures-list-columns: 1fr;
+    --structures-list-gap: 1.125rem;
+    --card-radius: 1rem;
+    --card-padding: 1.25rem;
+    --structure-card-columns: minmax(0, 0.9fr) minmax(19rem, 1.1fr);
+    --structure-card-gap: 1.25rem;
+    --maori-parts-justify: flex-start;
+    --maori-parts-gap: 0.75rem;
+    --maori-chip-min-height: 2.75rem;
+    --maori-chip-radius: 1rem;
+    --maori-chip-padding: 0.625rem 1rem;
+    --maori-chip-font-size: 1rem;
+    --training-container-max: 34rem;
+    --training-header-gap: 0.75rem;
+    --training-main-padding: 0.75rem 1.5rem 3rem;
+    --training-question-gap: 1.5rem;
+    --training-card-max: 30rem;
+    --training-bubble-radius: 1.5rem;
+    --training-bubble-padding: 1.5rem 1.25rem;
+    --training-choice-max: 30rem;
+    --training-choice-gap: 0.875rem;
+    --training-choice-min-height: 4.5rem;
+    --training-choice-radius: 1.125rem;
+    --training-choice-padding: 1rem;
+    --training-choice-font-size: 1rem;
+    --login-container-max: 28rem;
+    --login-main-padding: 3rem 1.5rem;
+    --login-card-padding: 2rem;
+  }
+}
+
+/* Web: laptop and standard desktop widths. */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  :root {
+    --app-container-max: 56rem;
+    --app-page-x: 2rem;
+    --app-page-y: 2rem;
+    --app-header-y: 1rem;
+    --app-header-gap: 1.25rem;
+    --structures-list-columns: 1fr;
+    --structures-list-gap: 1.125rem;
+    --card-radius: 1rem;
+    --card-padding: 1.25rem;
+    --structure-card-columns: minmax(0, 0.9fr) minmax(25rem, 1.1fr);
+    --structure-card-gap: 1.5rem;
+    --maori-parts-justify: flex-start;
+    --maori-parts-gap: 0.75rem;
+    --maori-chip-min-height: 2.75rem;
+    --maori-chip-radius: 1rem;
+    --maori-chip-padding: 0.625rem 1rem;
+    --maori-chip-font-size: 1rem;
+    --training-container-max: 34rem;
+    --training-header-gap: 0.75rem;
+    --training-main-padding: 0.75rem 1rem 3rem;
+    --training-question-gap: 1.5rem;
+    --training-card-max: 30rem;
+    --training-bubble-radius: 1.5rem;
+    --training-bubble-padding: 1.5rem 1.25rem;
+    --training-choice-max: 30rem;
+    --training-choice-gap: 0.875rem;
+    --training-choice-min-height: 4.5rem;
+    --training-choice-radius: 1.125rem;
+    --training-choice-padding: 1rem;
+    --training-choice-font-size: 1rem;
+    --login-container-max: 28rem;
+    --login-main-padding: 3rem 1.5rem;
+    --login-card-padding: 2rem;
+  }
+}
+
+/* Large screen: wide desktop layout with roomier spacing and capped reading width. */
+@media (min-width: 1440px) {
+  :root {
+    --app-container-max: 72rem;
+    --app-page-x: 2rem;
+    --app-page-y: 2.5rem;
+    --app-header-y: 1.125rem;
+    --app-header-gap: 1.5rem;
+    --structures-list-columns: repeat(2, minmax(0, 1fr));
+    --structures-list-gap: 1.25rem;
+    --card-radius: 1rem;
+    --card-padding: 1.25rem;
+    --structure-card-columns: 1fr;
+    --structure-card-gap: 1.125rem;
+    --maori-parts-justify: flex-start;
+    --maori-parts-gap: 0.75rem;
+    --maori-chip-min-height: 2.75rem;
+    --maori-chip-radius: 1rem;
+    --maori-chip-padding: 0.625rem 1rem;
+    --maori-chip-font-size: 1rem;
+    --training-container-max: 38rem;
+    --training-header-gap: 0.875rem;
+    --training-main-padding: 1rem 1rem 3.5rem;
+    --training-question-gap: 1.75rem;
+    --training-card-max: 32rem;
+    --training-bubble-radius: 1.5rem;
+    --training-bubble-padding: 1.75rem 1.5rem;
+    --training-choice-max: 32rem;
+    --training-choice-gap: 1rem;
+    --training-choice-min-height: 4.75rem;
+    --training-choice-radius: 1.125rem;
+    --training-choice-padding: 1.125rem;
+    --training-choice-font-size: 1rem;
+    --login-container-max: 30rem;
+    --login-main-padding: 3.5rem 1.5rem;
+    --login-card-padding: 2.25rem;
+  }
+}
