@@ -40,6 +40,8 @@ function parseAuthSnapshot(data: unknown): AppUserRow | null {
 }
 
 async function loadAppUser(authUser: User): Promise<AppUserRow | null> {
+  if (!supabase) return null
+
   await supabase.rpc('claim_app_user_by_email')
   await supabase.rpc('portal_ensure_app_user_for_auth')
 
@@ -68,7 +70,7 @@ async function loadAppUser(authUser: User): Promise<AppUserRow | null> {
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [appUser, setAppUser] = useState<AppUserRow | null>(null)
-  const [sessionReady, setSessionReady] = useState(false)
+  const [sessionReady, setSessionReady] = useState(!supabase)
   const [profileLoading, setProfileLoading] = useState(false)
 
   const syncProfile = useCallback(async (authUser: User | null) => {
@@ -86,6 +88,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   useEffect(() => {
+    if (!supabase) return
+
     supabase.auth
       .getSession()
       .then(({ data: { session } }) => {
@@ -105,16 +109,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [syncProfile])
 
   const signIn = async (email: string, password: string) => {
+    if (!supabase) return { error: new Error('Supabase is not configured.') }
     const { error } = await supabase.auth.signInWithPassword({ email, password })
     return { error: error as Error | null }
   }
 
   const signUp = async (email: string, password: string) => {
+    if (!supabase) return { error: new Error('Supabase is not configured.') }
     const { error } = await supabase.auth.signUp({ email, password })
     return { error: error as Error | null }
   }
 
   const signOut = async () => {
+    if (!supabase) {
+      setAppUser(null)
+      return
+    }
     await supabase.auth.signOut()
     setAppUser(null)
   }

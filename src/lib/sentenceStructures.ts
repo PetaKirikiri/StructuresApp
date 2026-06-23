@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { supabase } from './supabaseClient'
+import { missingSupabaseConfigMessage, supabase } from './supabaseClient'
 import type { MaoriVariant, SentenceStructure } from '../types/sentenceStructure'
 
 const maoriVariantSchema = z.object({
@@ -21,6 +21,8 @@ function parseMaoriVariants(raw: unknown): MaoriVariant[] {
 }
 
 export async function fetchAllSentenceStructures(): Promise<SentenceStructure[]> {
+  if (!supabase) throw new Error(missingSupabaseConfigMessage)
+
   const { data, error } = await supabase
     .from('course_sentence_structures')
     .select('id, structure_label, english_meaning, maori_variants, sort_order, sentence_text')

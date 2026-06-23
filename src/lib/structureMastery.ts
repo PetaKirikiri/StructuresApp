@@ -1,4 +1,4 @@
-import { supabase } from './supabaseClient'
+import { missingSupabaseConfigMessage, supabase } from './supabaseClient'
 import type { StructureMasteryRow } from './trainingProgression'
 
 const LOCAL_KEY = 'te-reo-structure-mastery'
@@ -22,6 +22,7 @@ function writeLocalMastery(rows: StructureMasteryRow[]): void {
 
 export async function fetchStructureMastery(userId: string | null): Promise<StructureMasteryRow[]> {
   if (!userId) return readLocalMastery()
+  if (!supabase) throw new Error(missingSupabaseConfigMessage)
 
   const { data, error } = await supabase
     .from('te_reo_structure_mastery')
@@ -47,6 +48,7 @@ export async function saveStructureMastery(
     writeLocalMastery(next)
     return next
   }
+  if (!supabase) throw new Error(missingSupabaseConfigMessage)
 
   const now = new Date().toISOString()
   const { error } = await supabase.from('te_reo_structure_mastery').upsert(
