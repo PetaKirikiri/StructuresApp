@@ -22,24 +22,11 @@ export function HeaderProfile({ onColor = false }: { onColor?: boolean }) {
     return <span className={`text-sm ${onColor ? 'text-white/80' : 'text-brand-muted'}`}>…</span>
   }
 
-  if (!user) {
-    return (
-      <Link
-        to="/login"
-        className={
-          onColor
-            ? 'rounded-xl border-2 border-white/50 bg-white/15 px-3 py-1.5 text-sm font-bold text-white shadow-[0_3px_0_rgba(0,0,0,0.15)]'
-            : 'rounded-full border border-brand-border bg-brand-surface px-4 py-1.5 text-sm font-medium text-brand-primary hover:bg-brand-bg'
-        }
-      >
-        Sign in
-      </Link>
-    )
-  }
-
-  const displayName = appUser?.display_name?.trim() || user.email?.split('@')[0] || 'User'
+  const displayName = user
+    ? appUser?.display_name?.trim() || user.email?.split('@')[0] || 'User'
+    : 'Progress'
   const initial = displayName.charAt(0).toUpperCase() || 'U'
-  const label = roleLabel(appUser?.role)
+  const label = user ? roleLabel(appUser?.role) : 'Local profile'
 
   return (
     <div ref={rootRef} className="relative">
@@ -78,21 +65,38 @@ export function HeaderProfile({ onColor = false }: { onColor?: boolean }) {
             <p className="truncate text-sm font-medium text-brand-text">{displayName}</p>
             <p className="text-xs text-brand-muted">{label}</p>
           </div>
-          <p className="hidden truncate px-3 py-2 text-xs text-brand-muted sm:block">
-            {user.email}
-          </p>
-          <ProfileSkillTree userId={user.id} active={open} />
-          <button
-            type="button"
-            role="menuitem"
-            className="w-full px-3 py-2 text-left text-sm text-brand-text hover:bg-brand-bg"
-            onClick={() => {
-              setOpen(false)
-              void signOut().then(() => navigate('/'))
-            }}
-          >
-            Sign out
-          </button>
+          {user ? (
+            <p className="hidden truncate px-3 py-2 text-xs text-brand-muted sm:block">
+              {user.email}
+            </p>
+          ) : (
+            <p className="hidden px-3 py-2 text-xs text-brand-muted sm:block">
+              Progress saved on this device
+            </p>
+          )}
+          <ProfileSkillTree userId={user?.id ?? null} active={open} />
+          {user ? (
+            <button
+              type="button"
+              role="menuitem"
+              className="w-full px-3 py-2 text-left text-sm text-brand-text hover:bg-brand-bg"
+              onClick={() => {
+                setOpen(false)
+                void signOut().then(() => navigate('/'))
+              }}
+            >
+              Sign out
+            </button>
+          ) : (
+            <Link
+              to="/login"
+              role="menuitem"
+              className="block w-full px-3 py-2 text-left text-sm font-medium text-brand-primary hover:bg-brand-bg"
+              onClick={() => setOpen(false)}
+            >
+              Sign in to sync
+            </Link>
+          )}
         </div>
       ) : null}
     </div>
